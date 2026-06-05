@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Arial; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px;
+    }
+   .box {
+      background: white; padding: 30px; border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center;
+      width: 100%; max-width: 400px;
+    }
+    h1 { color: #333; margin-bottom: 20px; font-size: 24px; }
+    input {
+      width: 100%; padding: 12px; font-size: 16px; margin: 15px 0;
+      border: 2px solid #ddd; border-radius: 10px;
+    }
+    input:focus { border-color: #667eea; outline: none; }
+    button {
+      width: 100%; padding: 12px; background: #667eea; color: white;
+      border: none; border-radius: 10px; font-size: 16px; font-weight: bold;
+      cursor: pointer; margin-bottom: 10px;
+    }
+    button:active { transform: scale(0.98); }
+    #download { background: #28a745; display: none; }
+    #qrcode { margin: 20px auto; padding: 15px; background: white; width: fit-content; border-radius: 10px; }
+    #qrcode img { display: block; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>📱 QR Code Generator</h1>
+    <input type="text" id="text" placeholder="Link, Text या WhatsApp number डालो">
+    <button onclick="makeQR()">Generate QR Code</button>
+    <button id="download" onclick="downloadQR()">⬇️ Download QR</button>
+    <div id="qrcode"></div>
+  </div>
+
+<script>
+let qr;
+function makeQR() {
+  let text = document.getElementById('text').value;
+  if(!text) { alert('कुछ तो डालो भाई'); return; }
+  document.getElementById('qrcode').innerHTML = "";
+  qr = new QRCode(document.getElementById("qrcode"), {
+    text: text, width: 200, height: 200, colorDark: "#000000", colorLight: "#ffffff"
+  });
+  document.getElementById('download').style.display = 'block';
+}
+function downloadQR() {
+  let img = document.querySelector('#qrcode img');
+  if(!img) return;
+  let link = document.createElement('a');
+  link.download = 'qrcode.png';
+  link.href = img.src;
+  link.click();
+}
+</script>
+</body>
+</html>
